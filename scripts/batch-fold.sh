@@ -40,15 +40,14 @@ do
 done
 
 curr=""
-while IFS= read -r t
+while IFS= read -r line
 do
-  if [[ ">" == "${t:0:1}" ]]
+  if [[ ">" == "${line:0:1}" ]]
   then
-    curr=${t:1:4}
+    curr=${line:1:4}
     echo "----Starting protein $curr----"
   else
-    echo ">$curr\n$t" > tmp.fasta
-    echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -f ./tmp.fasta -t $t -c $dbs
+    echo ">$curr\n$line" > tmp.fasta
     source $alphadir/run_alphafold.sh -d $datadir -o $outdir -f ./tmp.fasta -t $t -c $dbs
     rm tmp.fasta
   fi
