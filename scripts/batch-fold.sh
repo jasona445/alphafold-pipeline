@@ -51,7 +51,7 @@ do
     curr=${line:1:4}
     echo "----Starting protein $curr----"
   else
-    echo ">$curr\n$line" > tmp.fasta
+    echo >$curr\n$line > tmp.fasta
     echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu
     $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu
     rm tmp.fasta
