@@ -25,6 +25,7 @@ alphadir="."
 dbs="reduced_dbs"
 t="2022-03-01"
 use_gpu=true
+gpu_relax=true
 
 while getopts f:o:a:d:c:t:g flag
 do
@@ -35,7 +36,8 @@ do
     (d) datadir=$OPTARG ;;
     (c) dbs=$OPTARG ;;
     (t) t=$OPTARG ;;
-    (g) use_gpu=false ;;
+    (g) use_gpu=$OPTARG ;;
+    (r) gpu_relax=$OPTARG ;;
     (*) usage
        exit 1 ;;
   esac
@@ -53,8 +55,8 @@ do
   else
     echo ">$curr
 $line" > tmp.fasta
-    echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu
-    $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu
+    echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu -r $gpu_relax
+    $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu -r $gpu_relax
     rm tmp.fasta
   fi
 done < "$fasta"
