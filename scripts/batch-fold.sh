@@ -50,7 +50,7 @@ do
   else
     echo ">$curr\n$line" > tmp.fasta
     echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs
-    source $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs
+    $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs
     rm tmp.fasta
   fi
 done < "$fasta"
