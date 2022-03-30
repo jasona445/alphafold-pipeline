@@ -20,7 +20,7 @@ EOF
 
 fasta=""
 outdir="."
-alphadir=""
+alphadir="."
 datadir="$alphadir/data"
 dbs="reduced_dbs"
 t="2022-03-01"
