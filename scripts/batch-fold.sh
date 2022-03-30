@@ -55,8 +55,8 @@ do
   else
     echo ">$curr
 $line" > $curr.fasta
-    echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu -r $gpu_relax
-    $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu -r $gpu_relax
+    echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./$curr.fasta -t $t -c $dbs -g $use_gpu -r $gpu_relax
+    $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./$curr.fasta -t $t -c $dbs -g $use_gpu -r $gpu_relax
     rm $curr.fasta
   fi
 done < "$fasta"
