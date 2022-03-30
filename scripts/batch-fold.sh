@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Jason Apostol - March 2022
-# File to automate the folding of many proteins
+# File to automate the folding of many proteins.
 # To be run after download.py, align.py
 
 usage() {
@@ -14,6 +14,7 @@ Usage: $PROGNAME -f <file> [-o <dir>] [...]
  -d <dir> : the directory for alphafold's data dir, default: alphafold/data
  -c       : database setting, default: reduced_dbs
  -t       : newest template release date to consider (ISO-8601 format - i.e. YYYY-MM-DD), default: 2022-03-01
+ -g       : Use GPU, default true
 EOF
   exit 1
 }
@@ -23,8 +24,9 @@ outdir="./data/folded-structures"
 alphadir="."
 dbs="reduced_dbs"
 t="2022-03-01"
+use_gpu=true
 
-while getopts f:o:a:d:c:t: flag
+while getopts f:o:a:d:c:t:g flag
 do
   case $flag in
     (f) fasta=$OPTARG;;
@@ -33,6 +35,7 @@ do
     (d) datadir=$OPTARG ;;
     (c) dbs=$OPTARG ;;
     (t) t=$OPTARG ;;
+    (g) use_gpu=false ;;
     (*) usage
        exit 1 ;;
   esac
@@ -50,7 +53,7 @@ do
   else
     echo ">$curr\n$line" > tmp.fasta
     echo $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs
-    $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs
+    $alphadir/run_alphafold.sh -d $datadir -o $outdir -z $alphadir -f ./tmp.fasta -t $t -c $dbs -g $use_gpu
     rm tmp.fasta
   fi
 done < "$fasta"
