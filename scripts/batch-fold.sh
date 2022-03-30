@@ -27,7 +27,7 @@ t="2022-03-01"
 use_gpu=true
 gpu_relax=true
 
-while getopts f:o:a:d:c:t:g flag
+while getopts f:o:a:d:c:t:g:r: flag
 do
   case $flag in
     (f) fasta=$OPTARG;;
