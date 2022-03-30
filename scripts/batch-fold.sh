@@ -20,7 +20,7 @@ EOF
 }
 
 fasta=""
-outdir="./data/folded-structures"
+outdir="../data/folded-structures"
 alphadir="."
 dbs="reduced_dbs"
 t="2022-03-01"
