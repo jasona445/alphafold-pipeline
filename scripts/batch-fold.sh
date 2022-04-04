@@ -7,10 +7,12 @@
 usage() {
   cat << EOF >&2
 Usage: $PROGNAME -f <file> [-o <dir>] [...]
-
+ Required
  -f <file>: the input file containing sequences in FASTA format
- -o  <dir>: the output dir, default: data/folded-structures
+ Reccomended
  -a <dir> : the directory for alphafold, default: current dir
+ Optional
+ -o  <dir>: the output dir, default: data/folded-structures
  -d <dir> : the directory for alphafold's data dir, default: alphafold/data
  -c       : database setting, default: reduced_dbs
  -t       : newest template release date to consider (ISO-8601 format - i.e. YYYY-MM-DD), default: 2022-03-01
