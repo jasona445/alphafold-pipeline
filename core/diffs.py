@@ -67,6 +67,7 @@ def calc_exp_distances(proteins):
     :arg proteins is in pairs
     """
 
+    ret = {}
     for p1, p2 in proteins:
         alignment_dict = align(proteins)
         all_residues = get_residues(list(itertools.chain.from_iterable(proteins)))
@@ -123,16 +124,23 @@ def calc_exp_distances(proteins):
         catoms1, cfatoms1 = trim_atoms(atoms1, fatoms1)
         catoms2, cfatoms2 = trim_atoms(atoms2, fatoms2)
 
+        # RMS and LDDT = [Folded v Regular WT, Folded v Regular MUT, Exp WT v Exp MUT, Folded WT v Folded MUT]
+        RMS = []
+        LDDT = []
+
         super_imposer = Superimposer()
         super_imposer.set_atoms(catoms1, cfatoms1)
         # super_imposer.apply(cfatoms1)
         lddt_ = lddt(to_lddt_format(catoms1), to_lddt_format(cfatoms1), np.ones([1, len(catoms1), 1]))
+        RMS.append(super_imposer.rms); LDDT.append(lddt_)
 
         print('Folded v Regular WT {}, {}: RMS = {} lddt = {}'.format(p1, p2, super_imposer.rms, lddt_))
 
         super_imposer.set_atoms(catoms2, cfatoms2)
         # super_imposer.apply(cfatoms2)
         lddt_ = lddt(to_lddt_format(catoms2), to_lddt_format(cfatoms2), np.ones([1, len(catoms2), 1]))
+        RMS.append(super_imposer.rms); LDDT.append(lddt_)
+
 
         print('Folded v Regular MUT {}, {}: RMS = {} lddt = {}'.format(p1, p2, super_imposer.rms, lddt_))
 
@@ -142,14 +150,20 @@ def calc_exp_distances(proteins):
         super_imposer.set_atoms(catoms1, catoms2)
         # super_imposer.apply(catoms2)
         lddt_ = lddt(to_lddt_format(catoms1), to_lddt_format(catoms2), np.ones([1, len(catoms1), 1]))
+        RMS.append(super_imposer.rms); LDDT.append(lddt_)
 
         print('Exp WT v Exp MUT {}, {}: RMS = {} lddt = {}'.format(p1, p2, super_imposer.rms, lddt_))
 
         super_imposer.set_atoms(cfatoms1, cfatoms2)
         # super_imposer.apply(cfatoms2)
         lddt_ = lddt(to_lddt_format(cfatoms1), to_lddt_format(cfatoms2), np.ones([1, len(cfatoms1), 1]))
+        RMS.append(super_imposer.rms); LDDT.append(lddt_)
 
         print('Folded WT v Folded MUT {}, {}: RMS = {} lddt = {}'.format(p1, p2, super_imposer.rms, lddt_))
+        ret[p1] = {"RMS": RMS, "LDDT": LDDT}
+        ret[p2] = {"RMS": RMS, "LDDT": LDDT}
+
+    return ret
 
 
 if __name__ == '__main__':
@@ -170,6 +184,4 @@ if __name__ == '__main__':
          ['3sd6', '4gjf'],
          ['1r3q', '1jph'],
          ['6s2m', '5n4p']]
-    calc_exp_distances(pairings)
-
-
+    distance_dict = calc_exp_distances(pairings)
